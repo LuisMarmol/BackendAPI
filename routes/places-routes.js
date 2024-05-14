@@ -12,4 +12,6 @@ router.get('/users/:uid', placesControllers.getPlacesByUser);
 
 router.post('/', placesControllers.postPlaces);
 
+router.patch('/:pid', placesControllers.updatePlaces);
+
 module.exports = router;
