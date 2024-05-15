@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid'); //Otra manera de declarar el UUID: const uuid = require('uuid');
 const HttpError = require('../models/http-error');
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
     {
         id: 'p1',
         title: 'Rotonda',
@@ -45,7 +45,7 @@ const getPlacesByUser = (req, res, next)=>{
     res.json({places});
 };
 
-const postPlaces = (req, res, next)=>{
+const savePlace = (req, res, next)=>{
     const {title, creator} = req.body;
 /*En caso de colocar el uuid directamente en el JSON, quitar el const id = uuidv4;*/
     const id = uuidv4();
@@ -61,7 +61,7 @@ const postPlaces = (req, res, next)=>{
     res.json({places});
 };
 
-const updatePlaces = (req, res, next)=>{
+const updatePlace = (req, res, next)=>{
     const { title } = req.body;
     const placeId = req.params.pid;
 
@@ -78,8 +78,15 @@ const updatePlaces = (req, res, next)=>{
 
 };
 
+const deletePlace = (req, res, next) => {
+    const placeId = req.params.pid;
+    DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId)
+    res.status(200).json({message: 'Lugar eliminado exitosamente'});
+};
+
 exports.getAllPlaces = getAllPlaces;
 exports.getPlacesById = getPlacesById;
 exports.getPlacesByUser = getPlacesByUser;
-exports.postPlaces = postPlaces;
-exports.updatePlaces = updatePlaces;
+exports.savePlace = savePlace;
+exports.updatePlace = updatePlace;
+exports.deletePlace = deletePlace;
